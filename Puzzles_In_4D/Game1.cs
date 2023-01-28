@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Puzzles_In_4D
 {
@@ -8,6 +9,11 @@ namespace Puzzles_In_4D
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D SpriteSheet;
+        public Rectangle Window;
+        Polyomino p;
+
+
 
         public Game1()
         {
@@ -18,16 +24,22 @@ namespace Puzzles_In_4D
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 60;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 120;
+            _graphics.ApplyChanges();
+            Window = GraphicsDevice.Viewport.Bounds;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            SpriteSheet = Content.Load<Texture2D>("Untitled");
+            //delete
+            Sprite cube = new Sprite(SpriteSheet, new Vector2(0,0), 31, 42, new Vector2(Window.Center.X, Window.Center.Y));
+            List<Vector4> list = new List<Vector4>() { new Vector4(1, 1, 0, 0), new Vector4(1, 1, 1, 0) };
+            p = new Polyomino(cube, list, Color.White);
+            //
         }
 
         protected override void Update(GameTime gameTime)
@@ -42,10 +54,10 @@ namespace Puzzles_In_4D
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            GraphicsDevice.Clear(Color.Orange);
+            _spriteBatch.Begin();
+            p.Draw(_spriteBatch);
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
