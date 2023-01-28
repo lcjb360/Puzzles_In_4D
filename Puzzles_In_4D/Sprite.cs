@@ -47,12 +47,12 @@ namespace Puzzles_In_4D
 
         private Vector2 Coordinate_Conversion(Vector3 Position)
         {
-            Vector2 output = new Vector2(Window_Centre.X, 2*Window_Centre.Y - 42);
-            output.X += 15 * Position.X;
-            output.X -= 15 * Position.Y;
-            output.Y -= 11 * Position.X;
-            output.Y -= 11 * Position.X;
-            output.Y -= 20 * Position.Z;
+            Vector2 output = new Vector2(Window_Centre.X, 2*Window_Centre.Y - 90);
+            output.X += 30 * Position.X;
+            output.X -= 30 * Position.Y;
+            output.Y -= 22 * Position.X;
+            output.Y -= 22 * Position.Y;
+            output.Y -= 41 * Position.Z;
             return output;
         }
     }

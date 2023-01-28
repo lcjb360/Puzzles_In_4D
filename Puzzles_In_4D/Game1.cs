@@ -36,8 +36,8 @@ namespace Puzzles_In_4D
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteSheet = Content.Load<Texture2D>("Untitled");
             //delete
-            Sprite cube = new Sprite(SpriteSheet, new Vector2(0,0), 31, 42, new Vector2(Window.Center.X, Window.Center.Y));
-            List<Vector4> list = new List<Vector4>() { new Vector4(1, 1, 0, 0), new Vector4(1, 1, 1, 0) };
+            Sprite cube = new Sprite(SpriteSheet, new Vector2(0,0), 62, 85, new Vector2(Window.Center.X, Window.Center.Y));
+            List<Vector4> list = new List<Vector4>() { new Vector4(1,0,0,0),new Vector4(0,1,0,0),new Vector4(0, 0, 0, 0), new Vector4(0, 0, 1, 0) };
             p = new Polyomino(cube, list, Color.White);
             //
         }
