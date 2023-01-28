@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace Puzzles_In_4D
 {
-    class Player
+    class Player : Object
     {
-        Vector4 Position;
-        Color Colour = Color.White;
-        private Sprite Sprite;
-
         public Player(Vector4 position, Sprite sprite)
         {
+            Colour = Color.White;
             Position = position;
             Sprite = sprite;
         }
@@ -34,7 +31,7 @@ namespace Puzzles_In_4D
             if (Keyboard.GetState().IsKeyUp(Keys.D) && D_Pressed)
             {
                 D_Pressed = false;
-                if (Position.X < 20)
+                if (Position.X < 15)
                 {
                     Position.X += 1;
                 }
@@ -60,7 +57,7 @@ namespace Puzzles_In_4D
             if (Keyboard.GetState().IsKeyUp(Keys.W) && W_Pressed)
             {
                 W_Pressed = false;
-                if (Position.Y < 20)
+                if (Position.Y < 15)
                 {
                     Position.Y += 1;
                 }

@@ -9,26 +9,28 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Puzzles_In_4D
 {
-    class Polyomino
+    class Polyomino : Object
     {
-        public List<Vector4> Box_Positions;
-        private Sprite Sprite;
-        private Color Colour;
+        public List<Cube> Cubes;
 
-        public Polyomino(Sprite sprite, List<Vector4> box_positions, Color colour)
+        public Polyomino(List<Cube> cubes)
         {
-            Sprite = sprite;
-            Box_Positions = box_positions;
+            Cubes = cubes;
+            Colour = Color.White;
+        }
+        public Polyomino(Sprite sprite, List<Cube> cubes, Color colour)
+        {
+            Cubes = cubes;
             Colour = colour;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Vector4 Position in Box_Positions)
+            foreach (Cube Cube in Cubes)
             {
                 if (true)//check the correct 4D layer
                 {
-                    Sprite.Draw(spriteBatch, new Vector3(Position.X, Position.Y, Position.Z), Colour);
+                    Cube.Draw(spriteBatch, Colour);
                 }
             }
         }

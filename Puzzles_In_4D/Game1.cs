@@ -43,7 +43,7 @@ namespace Puzzles_In_4D
             Sprite Player_Sprite = new Sprite(SpriteSheet, new Vector2(64, 0), 20, 46, new Vector2(Window.Center.X, Window.Center.Y));
             //delete
             Player = new Player(new Vector4(0, 0, 0, 0), Player_Sprite);
-            List<Vector4> list = new List<Vector4>() { new Vector4(1,0,0,0),new Vector4(0,1,0,0),new Vector4(0, 0, 0, 0), new Vector4(0, 0, 1, 0) };
+            List<Cube> list = new List<Cube>() { new Cube(Cube_Sprite, "Immovable", new Vector4(1,0,0,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0,1,0,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 0, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 1, 0)) };
             p = new Polyomino(Cube_Sprite, list, Color.White);
             //
         }
