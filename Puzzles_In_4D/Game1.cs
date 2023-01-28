@@ -11,7 +11,11 @@ namespace Puzzles_In_4D
         private SpriteBatch _spriteBatch;
         private Texture2D SpriteSheet;
         public Rectangle Window;
+
+        //Delete
         Polyomino p;
+        Player Player;
+        //
 
 
 
@@ -35,10 +39,12 @@ namespace Puzzles_In_4D
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteSheet = Content.Load<Texture2D>("Untitled");
+            Sprite Cube_Sprite = new Sprite(SpriteSheet, new Vector2(0,0), 62, 85, new Vector2(Window.Center.X, Window.Center.Y));
+            Sprite Player_Sprite = new Sprite(SpriteSheet, new Vector2(64, 0), 20, 46, new Vector2(Window.Center.X, Window.Center.Y));
             //delete
-            Sprite cube = new Sprite(SpriteSheet, new Vector2(0,0), 62, 85, new Vector2(Window.Center.X, Window.Center.Y));
+            Player = new Player(new Vector4(0, 0, 0, 0), Player_Sprite);
             List<Vector4> list = new List<Vector4>() { new Vector4(1,0,0,0),new Vector4(0,1,0,0),new Vector4(0, 0, 0, 0), new Vector4(0, 0, 1, 0) };
-            p = new Polyomino(cube, list, Color.White);
+            p = new Polyomino(Cube_Sprite, list, Color.White);
             //
         }
 
@@ -46,7 +52,7 @@ namespace Puzzles_In_4D
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            Player.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -57,6 +63,7 @@ namespace Puzzles_In_4D
             GraphicsDevice.Clear(Color.Orange);
             _spriteBatch.Begin();
             p.Draw(_spriteBatch);
+            Player.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
