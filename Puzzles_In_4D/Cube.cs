@@ -11,6 +11,7 @@ namespace Puzzles_In_4D
     class Cube : Object
     {
         public string Type;
+        public Color Colour = Color.White;
         public Cube(Sprite sprite, string type, Vector4 position)
         {
             Sprite = sprite;
@@ -18,7 +19,7 @@ namespace Puzzles_In_4D
             Position = position;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color Colour)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Sprite.Draw(spriteBatch, new Vector3(Position.X, Position.Y, Position.Z), Colour);
         }

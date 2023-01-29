@@ -17,6 +17,10 @@ namespace Puzzles_In_4D
         {
             Cubes = cubes;
             Colour = Color.White;
+            for (int i = 0; i < cubes.Count; i++)
+            {
+                Cubes[i].Colour = Colour;
+            }
         }
         public Polyomino(Sprite sprite, List<Cube> cubes, Color colour)
         {
@@ -24,13 +28,13 @@ namespace Puzzles_In_4D
             Colour = colour;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (Cube Cube in Cubes)
             {
                 if (true)//check the correct 4D layer
                 {
-                    Cube.Draw(spriteBatch, Colour);
+                    Cube.Draw(spriteBatch);
                 }
             }
         }

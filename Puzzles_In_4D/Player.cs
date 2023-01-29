@@ -18,17 +18,18 @@ namespace Puzzles_In_4D
             Sprite = sprite;
         }
 
+
         bool D_Pressed = false;
         bool A_Pressed = false;
         bool W_Pressed = false;
         bool S_Pressed = false;
-        public Vector4 Movement_Control(KeyboardState Keyboard_State, Vector4 Position)
+        public Vector4 Movement_Control(Vector4 Position)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 D_Pressed = true;
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.D) && D_Pressed)
+            if (Keyboard.GetState().IsKeyUp(Keys.D) && D_Pressed && (Keyboard.GetState().IsKeyDown(Keys.LeftControl) || Keyboard.GetState().IsKeyDown(Keys.LeftShift)))
             {
                 D_Pressed = false;
                 if (Position.X < 15)
@@ -36,12 +37,20 @@ namespace Puzzles_In_4D
                     Position.X += 1;
                 }
             }
+            if (Keyboard.GetState().IsKeyUp(Keys.D) && D_Pressed && !(Keyboard.GetState().IsKeyDown(Keys.LeftControl) || Keyboard.GetState().IsKeyDown(Keys.LeftShift)))
+            {
+                D_Pressed = false;
+                if (Position.Y > 0)
+                {
+                    Position.Y -= 1;
+                }
+            }
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 A_Pressed = true;
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.A) && A_Pressed)
+            if (Keyboard.GetState().IsKeyUp(Keys.A) && A_Pressed && !(Keyboard.GetState().IsKeyDown(Keys.LeftControl) || Keyboard.GetState().IsKeyDown(Keys.LeftShift)))
             {
                 A_Pressed = false;
                 if (Position.X > 0)
@@ -49,30 +58,12 @@ namespace Puzzles_In_4D
                     Position.X -= 1;
                 }
             }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyUp(Keys.A) && A_Pressed && (Keyboard.GetState().IsKeyDown(Keys.LeftControl) || Keyboard.GetState().IsKeyDown(Keys.LeftShift)))
             {
-                W_Pressed = true;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.W) && W_Pressed)
-            {
-                W_Pressed = false;
+                A_Pressed = false;
                 if (Position.Y < 15)
                 {
                     Position.Y += 1;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                S_Pressed = true;
-            }
-            if (Keyboard.GetState().IsKeyUp(Keys.S) && S_Pressed)
-            {
-                S_Pressed = false;
-                if (Position.Y > 0)
-                {
-                    Position.Y -= 1;
                 }
             }
 
@@ -81,12 +72,12 @@ namespace Puzzles_In_4D
 
         public void Update()
         {
-            Position = Movement_Control(Keyboard.GetState(), Position);
+            Position = Movement_Control(Position);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            Sprite.Draw(spriteBatch, new Vector3(Position.X + 0.7f, Position.Y, Position.Z + 0.1f), Colour);
+            Sprite.Draw(spriteBatch, new Vector3(Position.X + 0.7f, Position.Y, Position.Z - 0.9f), Colour);
         }
     }
 }
