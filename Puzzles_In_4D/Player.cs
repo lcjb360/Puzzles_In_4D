@@ -23,8 +23,9 @@ namespace Puzzles_In_4D
         bool A_Pressed = false;
         bool W_Pressed = false;
         bool S_Pressed = false;
-        public Vector4 Movement_Control(Vector4 Position)
+        public Vector4 Movement_Control(Vector4 Position, List<Object> Objects)
         {
+            Vector4 Original_Position = Position;
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 D_Pressed = true;
@@ -67,12 +68,67 @@ namespace Puzzles_In_4D
                 }
             }
 
+            bool Falling = true;
+            bool Colliding = false;
+            bool Jumping = false;
+            foreach (Object Object in Objects)
+            {
+                if (Object.GetType() == typeof(Cube) && Object.Position == Position)
+                {
+                    Colliding = true;
+                    Jumping = true;
+                }
+            }
+            foreach (Object Object in Objects)
+            {
+                if (Object.GetType() == typeof(Cube) && (Object.Position == new Vector4(Position.X, Position.Y, Position.Z + 1, Position.W) || Object.Position == new Vector4(Original_Position.X, Original_Position.Y, Original_Position.Z + 1, Original_Position.W)))
+                {
+                    Jumping = false;
+                }
+            }
+            if (Colliding && !Jumping)
+            {
+                Position = Original_Position;
+            }
+            if (Jumping)
+            {
+                Position.Z += 1;
+            }
+            if (!Colliding && !Jumping)
+            {
+                foreach (Object Object in Objects)
+                {
+                    if (Object.GetType() == typeof(Cube) && Object.Position == new Vector4(Position.X, Position.Y, Position.Z - 1, Position.W))
+                    {
+                        Falling = false;
+                    }
+                }
+            }
+            if (Falling && !Jumping)
+            {
+                int Z_Fall = 1;
+                for (int i = (int)Position.Z - 2; i > 0; i--)
+                {
+                    foreach (Object Object in Objects)
+                    {
+                        if (Object.GetType() == typeof(Cube) && Object.Position == new Vector4(Position.X, Position.Y, i, Position.W))
+                        {
+                            if (i > Z_Fall)
+                            {
+                                Z_Fall = i;
+                            }
+                        }
+                    }
+                }
+                Position.Z = Z_Fall;
+            }
+
             return Position;
         }
 
-        public void Update()
+        public void Update(List<Object> Objects)
         {
-            Position = Movement_Control(Position);
+            Position = Movement_Control(Position, Objects);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

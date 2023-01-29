@@ -27,6 +27,19 @@ namespace Puzzles_In_4D
             Objects.AddRange(Cubes);
         }
 
+        public void Update()
+        {
+            for (int i = 0; i < Objects.Count; i++)
+            {
+                if (Objects[i].GetType() == typeof(Player))
+                {
+                    Player temp = (Player)Objects[i];
+                    temp.Update(Objects);
+                    Objects[i] = temp;
+                }
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch, int Player_W_Position)
         {
             bool Non_Cube_Drawn = false;
