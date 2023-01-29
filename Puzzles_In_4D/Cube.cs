@@ -11,12 +11,13 @@ namespace Puzzles_In_4D
     class Cube : Object
     {
         public string Type;
-        public Color Colour = Color.White;
+        public Color Colour;
         public Cube(Sprite sprite, string type, Vector4 position)
         {
             Sprite = sprite;
             Type = type;
             Position = position;
+            Colour = new Color(1f - (0.17f * Position.Z), 1f - (0.17f * Position.Z), 1f - (0.17f * Position.Z));
         }
 
         public override void Draw(SpriteBatch spriteBatch)

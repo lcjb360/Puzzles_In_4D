@@ -29,13 +29,32 @@ namespace Puzzles_In_4D
 
         public void Draw(SpriteBatch spriteBatch, int Player_W_Position)
         {
+            bool Non_Cube_Drawn = false;
             foreach (Object Object in Sorted_List_To_Draw(Objects, Player_W_Position))
             {
                 if (Object.GetType() != typeof(Polyomino))
                 {
                     if (Object.Position.W == Player_W_Position)
                     {
-                        Object.Draw(spriteBatch);
+                        if (Object.GetType() == typeof(Cube))
+                        {
+                            if (Non_Cube_Drawn)
+                            {
+                                Cube temp = (Cube)Object;
+                                Cube Transparent_Cube = new Cube(temp.Sprite, temp.Type, temp.Position);
+                                Transparent_Cube.Colour *= 0.75f;
+                                Transparent_Cube.Draw(spriteBatch);
+                            }
+                            else
+                            {
+                                Object.Draw(spriteBatch);
+                            }
+                        }
+                        else
+                        {
+                            Non_Cube_Drawn = true;
+                            Object.Draw(spriteBatch);
+                        }
                     }
                 }
             }

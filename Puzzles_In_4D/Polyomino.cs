@@ -22,7 +22,7 @@ namespace Puzzles_In_4D
                 Cubes[i].Colour = Colour;
             }
         }
-        public Polyomino(Sprite sprite, List<Cube> cubes, Color colour)
+        public Polyomino(List<Cube> cubes, Color colour)
         {
             Cubes = cubes;
             Colour = colour;

@@ -12,11 +12,13 @@ namespace Puzzles_In_4D
         private Texture2D SpriteSheet;
         public Rectangle Window;
 
-        //Delete
+        
         Polyomino p;
         Player Player;
         Level Level_1;
-        //
+
+        Polyomino Base;
+        
 
 
 
@@ -44,10 +46,21 @@ namespace Puzzles_In_4D
             Sprite Player_Sprite = new Sprite(SpriteSheet, new Vector2(64, 0), 20, 46, new Vector2(Window.Center.X, Window.Center.Y));
             //delete
             Player = new Player(new Vector4(0, 0, 1, 0), Player_Sprite);
-            List<Cube> list = new List<Cube>() { new Cube(Cube_Sprite, "Immovable", new Vector4(1,0,0,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 1, 2, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(2, 1, 0, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0,1,0,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 0, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 1, 0)) };
-            p = new Polyomino(Cube_Sprite, list, Color.White);
-            Level_1 = new Level(new List<Object> { p, Player });
+            List<Cube> list = new List<Cube>() { new Cube(Cube_Sprite, "Immovable", new Vector4(15, 15, 5, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(2, 5, 5, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0,0,3,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(1,0,0,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 1, 2, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(2, 1, 0, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0,1,0,0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 0, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 1, 0)) };
+            p = new Polyomino(list, Color.White);
+            
             //
+
+            List<Cube> Base_Cubes = new List<Cube>();
+            for (int x = 0; x < 16; x++)
+            {
+                for (int y = 0; y < 16; y++)
+                {
+                    Base_Cubes.Add(new Cube(Cube_Sprite, "Immovable", new Vector4(x, y, 0, 0)));
+                }
+            }
+            Base = new Polyomino(Base_Cubes, Color.White);
+            Level_1 = new Level(new List<Object> { Base, p, Player });
         }
 
         protected override void Update(GameTime gameTime)
