@@ -54,6 +54,16 @@ namespace Puzzles_In_4D
             return Base_Cubes;
         }
 
+        private List<Cube> Vectors_To_Cubes(List<Vector4> Vectors, Sprite Cube_Sprite, string Type)
+        {
+            List<Cube> Cubes = new List<Cube>();
+            foreach (Vector4 Vector in Vectors)
+            {
+                Cubes.Add(new Cube(Cube_Sprite, Type, Vector));
+            }
+            return Cubes;
+        }
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -65,8 +75,8 @@ namespace Puzzles_In_4D
             Player = new Player(new Vector4(5, 5, 1, 0), Player_Sprite);
 
             //Level_1
-            List<Cube> P_cubes = new List<Cube>() { new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 1, 0)), new Cube(Cube_Sprite, "Immovable", new Vector4(0, 0, 2, 0)) };
-            P = new Polyomino(P_cubes, Color.White);
+            List<Vector4> Immovable_Cubes = new List<Vector4>() { new Vector4(0, 0, 1, 0), new Vector4(0, 0, 2, 0) };
+            P = new Polyomino(Vectors_To_Cubes(Immovable_Cubes, Cube_Sprite, "Immovable"), Color.White);
 
             List<Cube> Base_Cubes = Generate_Base_Cubes(3, Cube_Sprite);
             Base = new Polyomino(Base_Cubes, Color.White);
