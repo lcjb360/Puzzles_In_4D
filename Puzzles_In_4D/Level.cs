@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace Puzzles_In_4D
     class Level
     {
         List<Object> Objects;
+        int Current_W;
 
         public Level(List<Object> objects)
         {
@@ -27,6 +30,8 @@ namespace Puzzles_In_4D
             Objects.AddRange(Cubes);
         }
 
+        bool Q_Pressed = false;
+        bool E_Pressed = false;
         public void Update()
         {
             for (int i = 0; i < Objects.Count; i++)
@@ -35,19 +40,56 @@ namespace Puzzles_In_4D
                 {
                     Player temp = (Player)Objects[i];
                     temp.Update(Objects);
+                    Current_W = (int)temp.Position.W;
                     Objects[i] = temp;
+                }
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                Q_Pressed = true;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.Q) && Q_Pressed)
+            {
+                Rotate(-1);
+                Q_Pressed = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                E_Pressed = true;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.E) && E_Pressed)
+            {
+                Rotate(1);
+                E_Pressed = false;
+            }
+        }
+
+        public void Rotate(int direction)
+        {
+            for (int i = 0; i < Objects.Count; i++)
+            {
+                if (Objects[i].GetType() != typeof(Polyomino))
+                {
+                    if (direction == -1)
+                    {
+                        Objects[i].Position = new Vector4(15f - Objects[i].Position.Y, Objects[i].Position.X, Objects[i].Position.Z, Objects[i].Position.W);
+                    }
+                    else
+                    {
+                        Objects[i].Position = new Vector4(Objects[i].Position.Y, 15f - Objects[i].Position.X, Objects[i].Position.Z, Objects[i].Position.W);
+                    }
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, int Player_W_Position)
+        public void Draw(SpriteBatch spriteBatch)
         {
             bool Non_Cube_Drawn = false;
-            foreach (Object Object in Sorted_List_To_Draw(Objects, Player_W_Position))
+            foreach (Object Object in Sorted_List_To_Draw(Objects, Current_W))
             {
                 if (Object.GetType() != typeof(Polyomino))
                 {
-                    if (Object.Position.W == Player_W_Position)
+                    if (Object.Position.W == Current_W)
                     {
                         if (Object.GetType() == typeof(Cube))
                         {

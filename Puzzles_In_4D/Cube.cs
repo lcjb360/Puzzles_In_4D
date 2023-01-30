@@ -11,7 +11,6 @@ namespace Puzzles_In_4D
     class Cube : Object
     {
         public string Type;
-        public Color Colour;
         public Cube(Sprite sprite, string type, Vector4 position)
         {
             Sprite = sprite;

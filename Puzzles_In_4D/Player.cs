@@ -26,6 +26,25 @@ namespace Puzzles_In_4D
         public Vector4 Movement_Control(Vector4 Position, List<Object> Objects)
         {
             Vector4 Original_Position = Position;
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                W_Pressed = true;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.W) && W_Pressed)
+            {
+                Position.W++;
+                W_Pressed = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                S_Pressed = true;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.S) && S_Pressed)
+            {
+                Position.W--;
+                S_Pressed = false;
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 D_Pressed = true;
@@ -104,15 +123,18 @@ namespace Puzzles_In_4D
                     }
                 }
             }
+            bool Found_Surface = true;
             if (Falling && !Jumping)
             {
-                int Z_Fall = 1;
-                for (int i = (int)Position.Z - 2; i > 0; i--)
+                Found_Surface = false;
+                int Z_Fall = 0;
+                for (int i = (int)Position.Z - 1; i >= 0; i--)
                 {
                     foreach (Object Object in Objects)
                     {
                         if (Object.GetType() == typeof(Cube) && Object.Position == new Vector4(Position.X, Position.Y, i, Position.W))
                         {
+                            Found_Surface = true;
                             if (i > Z_Fall)
                             {
                                 Z_Fall = i;
@@ -123,6 +145,10 @@ namespace Puzzles_In_4D
                 Position.Z = Z_Fall;
             }
 
+            if (!Found_Surface)
+            {
+                Position = Original_Position;
+            }
             return Position;
         }
 
