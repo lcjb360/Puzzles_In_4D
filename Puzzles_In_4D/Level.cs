@@ -97,12 +97,14 @@ namespace Puzzles_In_4D
                             {
                                 Cube temp = (Cube)Object;
                                 Cube Transparent_Cube = new Cube(temp.Sprite, temp.Type, temp.Position);
-                                Transparent_Cube.Colour *= 0.75f;
-                                Transparent_Cube.Draw(spriteBatch);
+                                Transparent_Cube.Colour = Object.Colour * 0.75f;
+                                Transparent_Cube.Draw(spriteBatch, Transparent_Cube.Colour);
                             }
                             else
                             {
-                                Object.Draw(spriteBatch);
+                                Cube temp = (Cube)Object;
+                                Cube Cube = new Cube(temp.Sprite, temp.Type, temp.Position);
+                                Cube.Draw(spriteBatch, Object.Colour);
                             }
                         }
                         else

@@ -23,6 +23,8 @@ namespace Puzzles_In_4D
         bool A_Pressed = false;
         bool W_Pressed = false;
         bool S_Pressed = false;
+        bool Moving_Polyomino = false;
+        Polyomino Polyomino_Moving;
         public Vector4 Movement_Control(Vector4 Position, List<Object> Objects)
         {
             Vector4 Original_Position = Position;
@@ -89,6 +91,29 @@ namespace Puzzles_In_4D
                 }
             }
 
+            //Grabbing a Polyomino
+            if (Keyboard.GetState().IsKeyDown(Keys.F) && !Moving_Polyomino)
+            {
+                foreach (Object Cube in Objects)
+                {
+                    if (Cube.GetType() == typeof(Cube))
+                    {
+                        if (Cube.Position == Position && ((Cube)Cube).Type.Contains("Movable"))
+                        {
+                            Polyomino_Moving = ((Cube)Cube).Polyomino;
+                            Moving_Polyomino = true;
+                            Position = Original_Position;
+                            return Position;
+                        }
+                    }
+                }
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.F) && Moving_Polyomino)
+            {
+                Moving_Polyomino = false;
+                Polyomino_Moving = null;
+            }
+
             //Interacting with cubes
             bool Falling = true;
             bool Colliding = false;
@@ -97,8 +122,16 @@ namespace Puzzles_In_4D
             {
                 if (Object.GetType() == typeof(Cube) && Object.Position == Position)
                 {
-                    Colliding = true;
-                    Jumping = true;
+                    if (!Moving_Polyomino)
+                    {
+                        Colliding = true;
+                        Jumping = true;
+                    }
+                    else if (Polyomino_Moving != ((Cube)Object).Polyomino)
+                    {
+                        Colliding = true;
+                        Jumping = false;
+                    }
                 }
             }
             foreach (Object Object in Objects)
@@ -112,7 +145,7 @@ namespace Puzzles_In_4D
             {
                 Position = Original_Position;
             }
-            if (Jumping)
+            if (Jumping && !Moving_Polyomino)
             {
                 Position.Z += 1;
             }
@@ -150,6 +183,41 @@ namespace Puzzles_In_4D
             if (!Found_Surface)
             {
                 Position = Original_Position;
+            }
+
+            bool Cube_Collision = false;
+            Vector4 New_Cube_Position;
+            if (Moving_Polyomino)
+            {
+                foreach (Cube Cube in Polyomino_Moving.Cubes)
+                {
+                    New_Cube_Position = Cube.Position + (Position - Original_Position);
+                    foreach (Object Other_Cube in Objects)
+                    {
+                        if (Other_Cube.GetType() == typeof(Cube))
+                        {
+                            if (Other_Cube.Position == New_Cube_Position && ((Cube)Other_Cube).Polyomino != Polyomino_Moving)
+                            {
+                                Cube_Collision = true;
+                            }
+                            if (New_Cube_Position.X < 0 || New_Cube_Position.X > 15 || New_Cube_Position.Y < 0 || New_Cube_Position.Y > 15)
+                            {
+                                Cube_Collision = true;
+                            }
+                        }
+                    }
+                }
+                if (!Cube_Collision)
+                {
+                    for (int i = 0; i < Polyomino_Moving.Cubes.Count; i++)
+                    {
+                        Polyomino_Moving.Cubes[i].Position += Position - Original_Position;
+                    }
+                }
+                else
+                {
+                    Position = Original_Position;
+                }
             }
 
             return Position;

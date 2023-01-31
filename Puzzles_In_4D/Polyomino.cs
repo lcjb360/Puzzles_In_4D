@@ -26,6 +26,10 @@ namespace Puzzles_In_4D
         {
             Cubes = cubes;
             Colour = colour;
+            for (int i = 0; i < Cubes.Count; i++)
+            {
+                Cubes[i].Colour = Colour;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -34,7 +38,7 @@ namespace Puzzles_In_4D
             {
                 if (true)//check the correct 4D layer
                 {
-                    Cube.Draw(spriteBatch);
+                    Cube.Draw(spriteBatch, Cube.Colour);
                 }
             }
         }
