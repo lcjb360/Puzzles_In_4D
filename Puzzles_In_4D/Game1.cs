@@ -15,6 +15,8 @@ namespace Puzzles_In_4D
         
         Polyomino A;
         Polyomino B;
+
+        Polyomino V;
         Player Player;
         Level Level_1;
 
@@ -84,7 +86,7 @@ namespace Puzzles_In_4D
             Player = new Player(new Vector4(5, 5, 1, 0), Player_Sprite);
 
             //Level_1
-            List<Vector4> Movable_Cubes = new List<Vector4>() { new Vector4(0, 0, 1, 0), new Vector4(0,0,2,1), new Vector4(0,1,1,0), new Vector4(0,0,2,0) };
+            List<Vector4> Movable_Cubes = new List<Vector4>() { new Vector4(0, 0, 1, 0), new Vector4(0,0,2,1), new Vector4(0,1,1,0), new Vector4(0,0,2,0), new Vector4(3, 0, 1, 0), new Vector4(3,0,1,1), new Vector4(2,0,1,1), new Vector4(1,0,1,1), new Vector4(0,0,1,1) };
             A = new Polyomino(Vectors_To_Cubes(Movable_Cubes, Cube_Sprite, "Movable"), Color.Red);
             Assign_Polyomino_To_Cubes(A.Cubes, A);
 
@@ -92,11 +94,14 @@ namespace Puzzles_In_4D
             B = new Polyomino(Vectors_To_Cubes(Immovable_Cubes, Cube_Sprite, "Immovable"), Color.White);
             Assign_Polyomino_To_Cubes(B.Cubes, B);
 
+            List<Vector4> Victory_Cubes = new List<Vector4>() { new Vector4(15, 15, 1, 1), new Vector4(14, 15, 1, 1), new Vector4(15, 14, 1, 1), new Vector4(14, 14, 1, 1) };
+            V = new Polyomino(Vectors_To_Cubes(Victory_Cubes, Cube_Sprite, "Victory"), Color.Lime);
+            Assign_Polyomino_To_Cubes(V.Cubes, V);
 
             List<Cube> Base_Cubes = Generate_Base_Cubes(3, Cube_Sprite);
             Base = new Polyomino(Base_Cubes, Color.White);
 
-            Level_1 = new Level(new List<Object> { Base, A, B , Player });
+            Level_1 = new Level(new List<Object> { Base, V, A, B , Player }, false, true);
         }
 
         protected override void Update(GameTime gameTime)

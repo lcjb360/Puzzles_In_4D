@@ -12,9 +12,11 @@ namespace Puzzles_In_4D
     class Level
     {
         List<Object> Objects;
+        bool Complete;
+        bool Unlocked;
         int Current_W;
 
-        public Level(List<Object> objects)
+        public Level(List<Object> objects, bool complete, bool unlocked)
         {
             Objects = objects;
             List<Cube> Cubes = new List<Cube>();
@@ -28,11 +30,13 @@ namespace Puzzles_In_4D
                 }
             }
             Objects.AddRange(Cubes);
+            Complete = complete;
+            Unlocked = unlocked;
         }
 
         bool Q_Pressed = false;
         bool E_Pressed = false;
-        public void Update()
+        public bool Update()
         {
             for (int i = 0; i < Objects.Count; i++)
             {
@@ -40,10 +44,15 @@ namespace Puzzles_In_4D
                 {
                     Player temp = (Player)Objects[i];
                     temp.Update(Objects);
+                    if (temp.Position.X == 1000)
+                    {
+                        Complete = true;
+                    }
                     Current_W = (int)temp.Position.W;
                     Objects[i] = temp;
                 }
             }
+            return Complete;
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 Q_Pressed = true;
