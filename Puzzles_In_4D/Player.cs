@@ -229,7 +229,7 @@ namespace Puzzles_In_4D
 
             foreach (Object Object in Objects)
             {
-                if (Object.GetType() == typeof(Cube) && Object.Position == Position)
+                if (Object.GetType() == typeof(Cube) && Object.Position == new Vector4(Position.X, Position.Y, Position.Z - 1, Position.W))
                 {
                     if (((Cube)Object).Type == "Victory")
                     {

@@ -44,7 +44,7 @@ namespace Puzzles_In_4D
                 {
                     Player temp = (Player)Objects[i];
                     temp.Update(Objects);
-                    if (temp.Position.X == 1000)
+                    if (temp.Position.X == 100)
                     {
                         Complete = true;
                     }

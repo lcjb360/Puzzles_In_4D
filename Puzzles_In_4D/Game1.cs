@@ -11,7 +11,7 @@ namespace Puzzles_In_4D
         private SpriteBatch _spriteBatch;
         private Texture2D SpriteSheet;
         public Rectangle Window;
-
+        public int Game_State;
         
         Polyomino A;
         Polyomino B;
@@ -82,6 +82,8 @@ namespace Puzzles_In_4D
             Sprite Cube_Sprite = new Sprite(SpriteSheet, new Vector2(0,0), 62, 85, new Vector2(Window.Center.X, Window.Center.Y));
             Sprite Player_Sprite = new Sprite(SpriteSheet, new Vector2(64, 0), 20, 46, new Vector2(Window.Center.X, Window.Center.Y));
 
+            //Set to 0 later
+            Game_State = 1;
 
             Player = new Player(new Vector4(5, 5, 1, 0), Player_Sprite);
 
@@ -108,7 +110,20 @@ namespace Puzzles_In_4D
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            Level_1.Update();
+
+            switch (Game_State)
+            {
+                case 1:
+                    if (Level_1.Update())
+                    {
+                        Game_State = 2;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -119,7 +134,16 @@ namespace Puzzles_In_4D
             GraphicsDevice.Clear(Color.Orange);
             _spriteBatch.Begin();
 
-            Level_1.Draw(_spriteBatch);
+            switch (Game_State)
+            {
+                case 1:
+                    Level_1.Draw(_spriteBatch);
+                    break;
+
+                default:
+                    break;
+            }
+            
 
             _spriteBatch.End();
             base.Draw(gameTime);
