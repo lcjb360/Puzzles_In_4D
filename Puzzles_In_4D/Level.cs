@@ -52,7 +52,7 @@ namespace Puzzles_In_4D
                     Objects[i] = temp;
                 }
             }
-            return Complete;
+            
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 Q_Pressed = true;
@@ -71,6 +71,7 @@ namespace Puzzles_In_4D
                 Rotate(1);
                 E_Pressed = false;
             }
+            return Complete;
         }
 
         public void Rotate(int direction)
